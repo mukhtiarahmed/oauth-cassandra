@@ -1,4 +1,4 @@
-#  Spring security oauth2 example
+#  Spring security oauth2 cassandra example
 
 ## Prerequisites:
 * Cassandra 3.9.0
