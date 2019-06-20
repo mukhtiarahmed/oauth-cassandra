@@ -2,6 +2,8 @@ package com.tenhawks.auth.exception;
 
 
 import com.tenhawks.auth.bean.ApiResponse;
+import com.tenhawks.auth.bean.Utils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,16 +24,16 @@ public class ExceptionHandlerController {
   @ResponseBody
   public ApiResponse alreadyRegisteredExceptionHandler(AlreadyRegisteredException exception, HttpServletRequest
       request, HttpServletResponse response) {
-  
-    return new ApiResponse();
+
+    return Utils.createApiResponse(exception.getMessage(), exception.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(NotRegisteredException.class)
   @ResponseBody
   public ApiResponse notRegisteredExceptionHandler(NotRegisteredException exception, HttpServletRequest
       request, HttpServletResponse response) {
-   
-    return new ApiResponse();
+
+    return Utils.createApiResponse(exception.getMessage(), exception.getMessage(), HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(Exception.class)
@@ -39,7 +41,7 @@ public class ExceptionHandlerController {
   public ApiResponse exceptionHandler(Exception exception, HttpServletRequest
       request, HttpServletResponse response) {
    
-    return new ApiResponse();
+    return Utils.createApiResponse(exception.getMessage(), exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 
@@ -48,16 +50,16 @@ public class ExceptionHandlerController {
   public ApiResponse alreadyUsedExceptionHandler(AlreadyUsedException exception,
                                                  HttpServletRequest
                                                                      request, HttpServletResponse response) {
-   
-    return new ApiResponse();
+
+    return Utils.createApiResponse(exception.getMessage(), exception.getMessage(), HttpStatus.BAD_REQUEST);
   }
   
   @ExceptionHandler(SystemException.class)
   @ResponseBody
   public ApiResponse authenticationExceptionHandler(AuthenticationException exception,
                                                     HttpServletRequest request, HttpServletResponse response) {
-    
-    return new ApiResponse();
+
+    return Utils.createApiResponse(exception.getMessage(), exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
   
  

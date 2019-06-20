@@ -86,14 +86,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(User user) {
-        User exits = null;
+        User userNamExists = userRepository.findByUserName(user.getUserName());
+        if (userNamExists != null) {
+            throw new AlreadyRegisteredException("This userName already registered.");
+        }
 
-        if (exits == null) {
+        User emailExist = userRepository.findByEmailAddress(user.getEmailAddress());
+        if (emailExist == null) {
             user.setRoles(Arrays.asList(RoleEnum.ROLE_USER.name()));
             saveUser(user);
         } else {
             throw new AlreadyRegisteredException("You seem to be already registered.");
-
         }
     }
 }

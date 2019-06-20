@@ -19,8 +19,6 @@ public class ApiResponse<T> implements Serializable {
 
   private Meta status;
 
-  private String message;
-
   private T data;
 
 

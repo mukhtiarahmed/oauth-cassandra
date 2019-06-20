@@ -14,9 +14,9 @@ public class UserDetail implements UserDetails {
 
 	private static final long serialVersionUID = 12112526L;
 
-	private String userId;
-
 	private String userName;
+
+	private String userId;
 
 	private String emailAddress;
 
