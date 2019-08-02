@@ -8,7 +8,7 @@ import com.tenhawks.auth.exception.InvalidDataException;
 import com.tenhawks.auth.exception.SystemException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.ModelAndView;
@@ -79,7 +79,7 @@ public final class AuthHelper {
     }
 
     public static void main(String args[]) {
-        System.out.println(generateBCryptPassword("ahmed"));
+        System.out.println(generateBCryptPassword("secret"));
     }
 
 

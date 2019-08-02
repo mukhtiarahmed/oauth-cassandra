@@ -4,10 +4,15 @@ logging:
     org.springframework.security: debug
 
 
+
 spring:
+  main:
+    allow-bean-definition-overriding: true
   data:
     cassandra:
       keyspace-name: th_auth
-      contact-points: localhost
+      contact-points: ${CASSANDRA_HOST:localhost}
       port: 9042
       schema-action: create_if_not_exists
+server:
+  port: 9292

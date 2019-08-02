@@ -1,12 +1,12 @@
 package com.tenhawks.auth;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.tenhawks.auth.domain.Client;
-import com.tenhawks.auth.domain.Role;
-import com.tenhawks.auth.domain.User;
+import com.tenhawks.auth.domain.*;
 import com.tenhawks.auth.repository.ClientRepository;
 import com.tenhawks.auth.repository.RoleRepository;
 import com.tenhawks.auth.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +18,9 @@ import org.springframework.data.cassandra.repository.config.EnableCassandraRepos
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
+import org.springframework.util.StringUtils;
 
+import java.net.Inet4Address;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -33,7 +35,19 @@ import java.util.UUID;
 
 public class AuthApplication {
 
-	public static void main(String[] args) {
+	private static final Logger log = LoggerFactory.getLogger(AuthApplication.class);
+
+	public static void main(String[] args)  throws Exception {
+		String cassandraHost =  System.getProperty("CASSANDRA_HOST");
+		log.info("CASSANDRA_HOST :" + cassandraHost + ":");
+		if(StringUtils.isEmpty(cassandraHost)) {
+			System.setProperty("CASSANDRA_HOST", "0.0.0.0");
+		} else {
+			String ipAddress = Inet4Address.getByName(cassandraHost).getHostAddress();
+			//log.info("ipAddress :" + ipAddress + ":");
+			System.setProperty("CASSANDRA_HOST", ipAddress);
+		}
+
 		SpringApplication.run(AuthApplication.class, args);
 	}
 
@@ -68,13 +82,13 @@ public class AuthApplication {
 		client.getAuthorizedGrantTypes().add("refresh_token");
 
 		return () -> {
-			cassandraTemplate.truncate("client");
-			cassandraTemplate.truncate("role");
-			cassandraTemplate.truncate("user");
-			cassandraTemplate.truncate("access_token");
-			cassandraTemplate.truncate("approval");
-			cassandraTemplate.truncate("client_token");
-			cassandraTemplate.truncate("refresh_token");
+			cassandraTemplate.truncate(Client.class);
+			cassandraTemplate.truncate(Role.class);
+			cassandraTemplate.truncate(User.class);
+			cassandraTemplate.truncate(AccessToken.class);
+			cassandraTemplate.truncate(Approval.class);
+			cassandraTemplate.truncate(ClientToken.class);
+			cassandraTemplate.truncate(RefreshToken.class);
 			clientRepository.save(client);
 			Client client1 = clientRepository.findByClientId(UUID.fromString("cffe3990-6f0e-11e8-b750-4d8614c940ff"));
 
@@ -102,7 +116,7 @@ public class AuthApplication {
 			user.setUserName("ahmed");
 			user.setPhoneNumber("+923100000000");
 			// password is  `secert`
-			user.setPassword("$2a$12$.5qlSA.5Gjp9.TRlEflnXukLlYUz/eNRhLgFKubk6PIoL8GM7GzLu");
+			user.setPassword("$2a$12$2kV1gT4c3XM.Gl1jHPoLYO/V7Pg.A1KnlUlZBrf5rnDXjYNLgc6N6");
 			userRepository.save(user);
 			user = userRepository.findByUserName("ahmed");
 			user.getRoles();

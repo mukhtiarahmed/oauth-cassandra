@@ -7,7 +7,7 @@ import com.tenhawks.auth.domain.RefreshToken;
 import com.tenhawks.auth.repository.AccessTokenRepository;
 import com.tenhawks.auth.repository.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cassandra.core.WriteOptions;
+
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
@@ -115,13 +115,13 @@ public class CassandraTokenStore implements TokenStore {
         ByteBuffer bufferedRefreshToken = serializeRefreshToken(refreshToken);
         ByteBuffer bufferedAuthentication = serializeAuthentication(authentication);
         final String tokenKey = refreshToken.getValue();
-        WriteOptions refreshWriteOptions = new WriteOptions();
+
         if (refreshToken instanceof ExpiringOAuth2RefreshToken) {
             ExpiringOAuth2RefreshToken expiringRefreshToken = (ExpiringOAuth2RefreshToken) refreshToken;
             Date expiration = expiringRefreshToken.getExpiration();
             if (expiration != null) {
                 int seconds = Long.valueOf((expiration.getTime() - System.currentTimeMillis()) / 1000L).intValue();
-                refreshWriteOptions.setTtl(seconds);
+
             }
         }
 

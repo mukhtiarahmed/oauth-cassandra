@@ -6,9 +6,10 @@ import org.springframework.data.cassandra.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface AccessTokenRepository extends CassandraRepository<AccessToken> {
+public interface AccessTokenRepository extends CassandraRepository<AccessToken, UUID> {
 
     @Query("select * from access_token where tokenid = ?0")
     AccessToken findByTokenId(String tokenId);
