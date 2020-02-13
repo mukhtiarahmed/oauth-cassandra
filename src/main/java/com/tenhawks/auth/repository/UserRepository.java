@@ -16,4 +16,7 @@ public interface UserRepository extends CassandraRepository<User, UUID> {
 
     @Query("select * from user where userName =?0 ALLOW FILTERING")
     User findByUserName(String userName);
+
+    @Query("select * from user where emailAddress =?0 ALLOW FILTERING")
+    User findByEmailAddress(String email);
 }

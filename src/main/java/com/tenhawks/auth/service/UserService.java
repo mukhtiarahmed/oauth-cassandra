@@ -5,6 +5,8 @@ import com.tenhawks.auth.bean.UserDetail;
 import com.tenhawks.auth.domain.User;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+
 /**
  * @author Mukhtiar Ahmed
  */
@@ -27,6 +29,10 @@ public interface UserService {
 
   
   User getUserByEmail(String email);
+
+  User getUserByUserName(final String userName);
+
+  List<User> getAllUsers();
 
 
 }

@@ -5,6 +5,7 @@ import com.tenhawks.auth.domain.*;
 import com.tenhawks.auth.repository.ClientRepository;
 import com.tenhawks.auth.repository.RoleRepository;
 import com.tenhawks.auth.repository.UserRepository;
+import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -27,6 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.net.Inet4Address;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -76,6 +78,17 @@ public class AuthApplication {
 		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
+	}
+
+	@Bean(name = "org.dozer.Mapper")
+	public DozerBeanMapper dozerBean() {
+		List<String> mappingFiles = Arrays.asList(
+				"dozer-configration-mapping.xml"
+		);
+
+		DozerBeanMapper dozerBean = new DozerBeanMapper();
+		dozerBean.setMappingFiles(mappingFiles);
+		return dozerBean;
 	}
 
 	@Bean
